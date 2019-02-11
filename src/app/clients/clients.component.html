@@ -1,33 +1,41 @@
 <div class="card border-primary mb-3">
-  <div class="card-header">Clients</div>
-  <div class="card-body text-primary">
-    <h5 class="card-title">Clients List</h5>
-    <div class="my-2 text-left">
-      <button class="btn btn-rounded btn-primary" type= "button" [routerLink]= "['/clients/form']">
+    <div class="card-header">Clients</div>
+    <div class="card-body text-primary">
+        <h5 class="card-title">Clients List</h5>
+        <div class="my-2 text-left">
+            <button class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clients/form']">
         Create New Client
       </button>
+        </div>
+
+        <div *ngIf="clients?.length==0" class="alert alert-info">
+            There are no records in the database!
+        </div>
+
+        <table class="table table-bordered table-striped" *ngIf="clients?.length>0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of clients">
+                    <td>{{ client.id }}</td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.lastName }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.createAt }}</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" name="btn_edit" [routerLink]="['/clients/form', client.id]">Edit</button></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" name="btn_remove" (click)="delete(client)">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
-
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let client of clients">
-          <td>{{ client.id }}</td>
-          <td>{{ client.name }}</td>
-          <td>{{ client.lastName }}</td>
-          <td>{{ client.email }}</td>
-          <td>{{ client.createAt }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
 </div>
