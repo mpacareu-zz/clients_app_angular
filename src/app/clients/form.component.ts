@@ -12,6 +12,7 @@ export class FormComponent implements OnInit {
 
   private client: Client = new Client();
   private title = 'Create Client';
+  private errors: string [];
   constructor( private clientService: ClientService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -31,7 +32,12 @@ export class FormComponent implements OnInit {
     this.clientService.create(this.client).subscribe(
       client => {
         this.router.navigate(['/clients']);
+        console.log(client.name);
         swal.fire('New Client',  ` ${client.name} client was created with success!`, 'success');
+      }, err => {
+        this.errors = err.error.errors as string[];
+        console.error(err.status);
+        console.error(err.error.errors);
       }
     );
   }
@@ -40,6 +46,10 @@ export class FormComponent implements OnInit {
     this.clientService.update(this.client).subscribe( client => {
       this.router.navigate(['/clients']);
       swal.fire('Client Updated',  ` ${client.name} client was updated with success!`, 'success');
+    }, err => {
+      this.errors = err.error.errors as string[];
+      console.error(err.status);
+      console.error(err.error.errors);
     }
     );
   }
