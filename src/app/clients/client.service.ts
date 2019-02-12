@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DatePipe  } from '@angular/common';
 import { Client } from './client';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -15,7 +16,14 @@ export class ClientService {
 
   getClients(): Observable<Client[]> {
     return this.http.get(this.urlEndPoint).pipe(
-      map(response => response as Client[])
+      map(response => {
+        return (response as Client[]).map(c => {
+          c.name = c.name.toUpperCase();
+          // c.createAt = new DatePipe('es-CL').transform(c.createAt, 'fullDate');
+          c.createAt = new DatePipe('en-US').transform(c.createAt, 'EEEE dd, MMMM yyyy');
+          return c;
+        });
+      })
     );
   }
 
@@ -23,7 +31,7 @@ export class ClientService {
     return this.http.post<Client>(this.urlEndPoint, client, {headers: this.httpHeadders}).pipe(
       map( (response: any) => response.client as Client),
       catchError( e => {
-        if(e.status == 400){
+        if (e.status === 400) {
           return throwError(e);
         }
         swal.fire(e.error.message, e.error.error, 'error');
@@ -46,8 +54,8 @@ export class ClientService {
     return this.http.put<Client>(`${this.urlEndPoint}/${client.id}`, client, {headers: this.httpHeadders}).pipe(
       map( (response: any) => response.client as Client),
       catchError( e => {
-        
-        if(e.status == 400){
+
+        if (e.status === 400) {
           return throwError(e);
         }
 

@@ -9,8 +9,12 @@ import { ClientsComponent } from './clients/clients.component';
 import { ClientService } from './clients/client.service';
 import { RouterModule, Routes} from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
 import { FormComponent } from './clients/form.component';
 import {FormsModule  } from '@angular/forms';
+import { localeES } from '@angular/common/locales/es-CL';
+
+registerLocaleData(localeES, 'es-CL');
 
 const routes: Routes = [
   {path: '', redirectTo: '/clients', pathMatch: 'full'},

@@ -1,16 +1,20 @@
+<ul class="alert alert-danger" *ngIf="errors?.length>0">
+    <li *ngFor="let error of errors">{{error}}</li>
+</ul>
 <div class="card bg-dark text-white">
     <div class="card-header">{{title}}</div>
     <div class="card-body">
-        <form #clientForm = "ngForm">
+        <form #clientForm="ngForm">
             <div class="form-group row">
                 <label for="name" class="col-form-label col-sm-2">Name</label>
                 <div class="col-sm-6">
-                    <input type=" " class="form-control" [(ngModel)]="client.name" name="name" required minlength="4" #name = "ngModel">
+                    <!-- <input type=" " class="form-control" [(ngModel)]="client.name" name="name" required minlength="4" #name="ngModel"> -->
+                    <input type=" " class="form-control" [(ngModel)]="client.name" name="name" #name="ngModel">
                     <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched) ">
-                        <div *ngIf= "name.errors.required">
+                        <div *ngIf="name.errors.required">
                             Name is required
                         </div>
-                        <div *ngIf= "name.errors.minlength">
+                        <div *ngIf="name.errors.minlength">
                             Name should be almost 4 characters
                         </div>
                     </div>
@@ -20,9 +24,10 @@
             <div class="form-group row">
                 <label for="lastName" class="col-form-label col-sm-2">Last Name</label>
                 <div class="col-sm-6">
-                    <input type=" " class="form-control" [(ngModel)]="client.lastName" name="lastName" required #lastName= "ngModel">
+                    <!-- <input type=" " class="form-control" [(ngModel)]="client.lastName" name="lastName" required #lastName="ngModel"> -->
+                    <input type=" " class="form-control" [(ngModel)]="client.lastName" name="lastName" #lastName="ngModel">
                     <div class="alert alert-danger" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched) ">
-                        <div *ngIf= "lastName.errors.required">
+                        <div *ngIf="lastName.errors.required">
                             Last name is required
                         </div>
                     </div>
@@ -32,12 +37,13 @@
             <div class="form-group row">
                 <label for="email" class="col-form-label col-sm-2">Email</label>
                 <div class="col-sm-6">
-                    <input type=" " class="form-control" [(ngModel)]="client.email" name="email" required email #email = "ngModel">
+                    <!-- <input type=" " class="form-control" [(ngModel)]="client.email" name="email" required email #email="ngModel"> -->
+                    <input type=" " class="form-control" [(ngModel)]="client.email" name="email" #email="ngModel">
                     <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched) ">
-                        <div *ngIf= "email.errors.required">
+                        <div *ngIf="email.errors.required">
                             Email is required
                         </div>
-                        <div *ngIf= "email.errors.email">
+                        <div *ngIf="email.errors.email">
                             Email should have a valid format
                         </div>
                     </div>
@@ -46,9 +52,9 @@
 
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!client.id else elseBlock" [disabled] = "!clientForm.form.valid">Create</button>
+                    <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!client.id else elseBlock" [disabled]="!clientForm.form.valid">Create</button>
                     <ng-template #elseBlock>
-                        <button class="btn btn-primary" role="button" (click)="update()" [disabled] = "!clientForm.form.valid">Update</button>
+                        <button class="btn btn-primary" role="button" (click)="update()" [disabled]="!clientForm.form.valid">Update</button>
                     </ng-template>
                 </div>
             </div>
