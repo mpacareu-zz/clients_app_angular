@@ -28,9 +28,9 @@
                 <tr *ngFor="let client of clients">
                     <td>{{ client.id }}</td>
                     <td>{{ client.name }}</td>
-                    <td>{{ client.lastName }}</td>
+                    <td>{{ client.lastName | uppercase}}</td>
                     <td>{{ client.email }}</td>
-                    <td>{{ client.createAt }}</td>
+                    <td>{{ client.createAt | date: "EEEE dd, MMMM yyyy" }}</td>
                     <td><button type="button" class="btn btn-primary btn-sm" name="btn_edit" [routerLink]="['/clients/form', client.id]">Edit</button></td>
                     <td><button type="button" class="btn btn-danger btn-sm" name="btn_remove" (click)="delete(client)">Delete</button></td>
                 </tr>

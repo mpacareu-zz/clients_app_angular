@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DatePipe  } from '@angular/common';
 import { Client } from './client';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { of, Observable, throwError } from 'rxjs';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -16,11 +16,17 @@ export class ClientService {
 
   getClients(): Observable<Client[]> {
     return this.http.get(this.urlEndPoint).pipe(
+      tap( response => {
+        let clients = response as Client[];
+        clients.forEach(c=>{
+          console.log(c);
+        })
+      }, err => console.log(err), () => console.log('Complete')),
       map(response => {
         return (response as Client[]).map(c => {
           c.name = c.name.toUpperCase();
           // c.createAt = new DatePipe('es-CL').transform(c.createAt, 'fullDate');
-          c.createAt = new DatePipe('en-US').transform(c.createAt, 'EEEE dd, MMMM yyyy');
+          // c.createAt = new DatePipe('en-US').transform(c.createAt, 'EEEE dd, MMMM yyyy');
           return c;
         });
       })
