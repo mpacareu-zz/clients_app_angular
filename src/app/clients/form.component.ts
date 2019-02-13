@@ -20,8 +20,8 @@ export class FormComponent implements OnInit {
   }
 
   public chargeClient(): void {
-    this.activatedRoute.params.subscribe(params => {
-      let id = params['id'];
+    this.activatedRoute.paramMap.subscribe(params => {
+      let id = +params['id'];
       if (id) {
         this.clientService.getClient(id).subscribe(client => this.client = client);
       }

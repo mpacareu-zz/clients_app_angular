@@ -14,21 +14,23 @@ export class ClientService {
   private httpHeadders = new HttpHeaders({'Content-Type': 'application/json'});
   constructor(private http: HttpClient, private router: Router) { }
 
-  getClients(): Observable<Client[]> {
-    return this.http.get(this.urlEndPoint).pipe(
-      tap( response => {
-        let clients = response as Client[];
-        clients.forEach(c=>{
+  getClients(page: number): Observable<any> {
+    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+      tap( (response: any) => {
+        (response.content as Client[]).forEach(c => {
           console.log(c);
-        })
-      }, err => console.log(err), () => console.log('Complete')),
-      map(response => {
-        return (response as Client[]).map(c => {
+        });
+        }, err => console.log(err),
+         () => console.log('Complete')
+       ),
+      map((response: any) => {
+        (response.content as Client[]).map(c => {
           c.name = c.name.toUpperCase();
           // c.createAt = new DatePipe('es-CL').transform(c.createAt, 'fullDate');
           // c.createAt = new DatePipe('en-US').transform(c.createAt, 'EEEE dd, MMMM yyyy');
           return c;
         });
+        return response;
       })
     );
   }
